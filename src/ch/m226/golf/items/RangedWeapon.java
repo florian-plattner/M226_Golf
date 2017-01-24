@@ -22,7 +22,7 @@ public class RangedWeapon extends Weapon{
         else if(directionY < -1)directionY = -1;
 
         boolean hit = false;
-        for(int i = 0; i < range && !hit; i++){
+        for(int i = 1; i < range && !hit; i++){
             for(GameObject gameObject: level.gameObjects){
                 if(gameObject.x == x + directionX * i && gameObject.y == y + directionY * i){
                     if(gameObject.intact){
