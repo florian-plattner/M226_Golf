@@ -6,10 +6,12 @@ import java.util.Scanner;
 public class Game{
     public ArrayList<Level> levels;
     public Level currentLevel;
+    public String description;
     private Scanner scanner;
 
-    public Game(ArrayList<Level> levels){
+    public Game(ArrayList<Level> levels, String description){
         this.levels = levels;
+        this.description = description;
         if(levels.size() > 0){
             currentLevel = levels.get(0);
         }
@@ -17,6 +19,8 @@ public class Game{
     }
 
     public void game(){
+        System.out.println(description);
+
         if(currentLevel != null){
             while(true){
                 String input = scanner.next();

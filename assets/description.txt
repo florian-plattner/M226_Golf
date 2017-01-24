@@ -1,0 +1,4 @@
+commands:
+  walk [direction (north, south, ..)]: to move
+  attack [direction] with [weapon name]: to use your weapons
+  exit: to quit game
