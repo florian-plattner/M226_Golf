@@ -17,9 +17,11 @@ public class GameObject{
     }
 
     public void hit(Attack attack){
-        hitpoints -= attack.amount;
-        if(hitpoints <= 0){
-            intact = false;
+        if(hitpoints > 0){
+            hitpoints -= attack.amount;
+            if(hitpoints <= 0){
+                intact = false;
+            }
         }
     }
 }

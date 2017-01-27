@@ -1,2 +1,1 @@
-light-crossbow,1;1,2,5
-heavy-crossbow,2,1,4,8
+crossbow,2,PIERCING,4,8

@@ -1,5 +1,7 @@
 package ch.m226.golf;
 
+import ch.m226.golf.game_objects.Player;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -7,67 +9,20 @@ public class Game{
     public ArrayList<Level> levels;
     public Level currentLevel;
     public String description;
-    private Scanner scanner;
+    public Player player;
+    public UserInterface userInterface;
 
-    public Game(ArrayList<Level> levels, String description){
+    public Game(Player player, ArrayList<Level> levels, String description){
+        this.player = player;
         this.levels = levels;
         this.description = description;
         if(levels.size() > 0){
             currentLevel = levels.get(0);
         }
-        scanner = new Scanner(System.in);
+        userInterface = new UserInterface(this);
     }
 
     public void game(){
-        System.out.println(description);
-
-        if(currentLevel != null){
-            while(true){
-                String input = scanner.next();
-
-                if(input.equals("exit")){
-                    break;
-                }
-
-                if(input.equals("walk")){
-                    String next = scanner.next();
-                    switch(next){
-                        case "north":
-                            currentLevel.getPlayer().move(currentLevel, 0, -1);
-                            break;
-                        case "south":
-                            currentLevel.getPlayer().move(currentLevel, 0, 1);
-                            break;
-                        case "west":
-                            currentLevel.getPlayer().move(currentLevel, -1, 0);
-                            break;
-                        case "east":
-                            currentLevel.getPlayer().move(currentLevel, 1, 0);
-                            break;
-                    }
-                }
-
-                if(input.equals("attack")){
-                    String direction = scanner.next();
-                    if(scanner.next().equals("with")){
-                        String weapon = scanner.next();
-                        switch(direction){
-                            case "north":
-                                currentLevel.getPlayer().useWeapon(currentLevel, weapon, 0, -1);
-                                break;
-                            case "south":
-                                currentLevel.getPlayer().useWeapon(currentLevel, weapon, 0, 1);
-                                break;
-                            case "west":
-                                currentLevel.getPlayer().useWeapon(currentLevel, weapon, -1, 0);
-                                break;
-                            case "east":
-                                currentLevel.getPlayer().useWeapon(currentLevel, weapon, 1, 0);
-                                break;
-                        }
-                    }
-                }
-            }
-        }
+        userInterface.run();
     }
 }

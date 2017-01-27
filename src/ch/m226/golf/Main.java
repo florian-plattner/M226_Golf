@@ -16,18 +16,11 @@ public class Main{
 
     public static void main(String[] args){
         String description = FileLoader.loadDescription();
+        ArrayList<Level> levels = FileLoader.loadLevels();
+        Player player = FileLoader.loadPlayer();
 
-        if(description != null){
-            Level level = new Level();
-            level.setPlayer(new Player("player", 6, 0, 0));
-            level.getPlayer().inventory.add(new MeleeWeapon("sword", 1, DamageType.PIERCING, 5));
-            level.getPlayer().inventory.add(new RangedWeapon("crossbow", 1, DamageType.PIERCING, 2, 4));
-            level.gameObjects.add(new NonPlayerCharacter("ork", 5, 1, 0));
-
-
-            ArrayList<Level> levels = new ArrayList<>();
-            levels.add(level);
-            Game game = new Game(levels, description);
+        if(description != null && levels != null && player != null){
+            Game game = new Game(player, levels, description);
             game.game();
         }else{
             System.out.println("Failed to load!");

@@ -22,10 +22,12 @@ public class Mob extends GameObject{
         else if(y < -1)y = -1;
 
         for(GameObject gameObject: level.gameObjects){
-            if (gameObject.x == this.x + x && gameObject.y == this.y + y){
-                System.out.println(Main.getArticle(gameObject.name, true) + " " + gameObject.name + " is in your way!");
+            if (gameObject.x == this.x + x && gameObject.y == this.y + y && gameObject.intact){
+                System.out.println(Main.getArticle(gameObject.name, true) + " " + gameObject.name +
+                        " is in your way!");
                 x = 0;
                 y = 0;
+                break;
             }
         }
 
