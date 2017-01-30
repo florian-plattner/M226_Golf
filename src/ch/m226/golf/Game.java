@@ -23,6 +23,7 @@ public class Game{
     }
 
     public void game(){
+        boolean running = true;
         userInterface.run();
     }
 }

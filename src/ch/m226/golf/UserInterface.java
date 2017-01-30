@@ -16,150 +16,84 @@ public class UserInterface {
     public void run() {
         System.out.println(game.description);
 
-        if (game.currentLevel != null) {
-            while (true) {
-                String input = scanner.next();
+        while (game.currentLevel != null) {
+            String[] input = scanner.nextLine().split(" ");
 
-                if (input.equals("exit")) {
-                    break;
-                } else if (input.equals("walk")) {
-                    String next = scanner.next();
-                    switch (next) {
+            if (input[0].equals("exit")) {
+                break;
+            } else if (input[0].equals("walk") && input.length >= 2) {
+                switch (input[1]) {
+                    case "north":
+                        game.player.move(game.currentLevel, 0, -1);
+                        break;
+                    case "south":
+                        game.player.move(game.currentLevel, 0, 1);
+                        break;
+                    case "west":
+                        game.player.move(game.currentLevel, -1, 0);
+                        break;
+                    case "east":
+                        game.player.move(game.currentLevel, 1, 0);
+                        break;
+                    default:
+                        System.out.println("unknown direction");
+                }
+            } else if (input[0].equals("attack") && input.length >= 2) {
+                if (input[2].equals("with")) {
+                    String weapon = input[3];
+                    switch (input[1]) {
                         case "north":
-                            game.player.move(game.currentLevel, 0, -1);
+                            game.player.useWeapon(game.currentLevel, weapon, 0, -1);
                             break;
                         case "south":
-                            game.player.move(game.currentLevel, 0, 1);
+                            game.player.useWeapon(game.currentLevel, weapon, 0, 1);
                             break;
                         case "west":
-                            game.player.move(game.currentLevel, -1, 0);
+                            game.player.useWeapon(game.currentLevel, weapon, -1, 0);
                             break;
                         case "east":
-                            game.player.move(game.currentLevel, 1, 0);
+                            game.player.useWeapon(game.currentLevel, weapon, 1, 0);
                             break;
+                        default:
+                            System.out.println("unknown direction");
                     }
-                } else if (input.equals("attack")) {
-                    String direction = scanner.next();
-                    if (scanner.next().equals("with")) {
-                        String weapon = scanner.next();
-                        switch (direction) {
-                            case "north":
-                                game.player.useWeapon(game.currentLevel, weapon, 0, -1);
-                                break;
-                            case "south":
-                                game.player.useWeapon(game.currentLevel, weapon, 0, 1);
-                                break;
-                            case "west":
-                                game.player.useWeapon(game.currentLevel, weapon, -1, 0);
-                                break;
-                            case "east":
-                                game.player.useWeapon(game.currentLevel, weapon, 1, 0);
-                                break;
-                        }
-                    }
-                } else if (input.equals("look") && scanner.next().equals("around")) {
-                    printView(game.player, 4);
                 }
+            } else if (input[0].equals("look") && input.length >= 2 && input[1].equals("around")) {
+                printView(game.player, 4);
+            } else {
+                System.out.println("unknown command");
             }
         }
     }
 
-    private void printView(GameObject object, int range) {
-        ArrayList<GameObject> visibleObjects = new ArrayList<>();
-        visibleObjects.addAll(game.currentLevel.gameObjects);
 
-        for(Iterator<GameObject> iterator = visibleObjects.iterator(); iterator.hasNext();){
-            GameObject gameObject = iterator.next();
+    public void printView(GameObject gameObject, int range) {
+        HashSet<GameObject> visibleObjects = new HashSet<>();
 
-            int distanceX = Math.abs(gameObject.x - object.x);
-            int distanceY = Math.abs(gameObject.y - object.y);
+        for(int i = 0; i <= range / 2; i++){
+            int x = -1, y = -1;
 
-            if(Math.max(distanceX, distanceY) >= range){
-                iterator.remove();
-            }
+            do{
+                if(y == -1)x *= -1;
+                y *= -1;
+
+                lightRay(visibleObjects, gameObject.x, gameObject.y, i * x, range * y, range);
+                lightRay(visibleObjects, gameObject.x, gameObject.y, range * x, i * y, range);
+            }while(!(x == -1 && y == -1));
         }
-
-//        for (GameObject gameObject : game.currentLevel.gameObjects) {
-//            if(gameObject != object){
-//
-//                int distanceX = gameObject.x - object.x;
-//                int distanceY = gameObject.y - object.y;
-//
-//                double angle_min;
-//                double angle_max;
-//
-//                double[] angles = new double[]{
-//                        Math.atan2(distanceY - 0.5, distanceX - 0.5),
-//                        Math.atan2(distanceY - 0.5, distanceX + 0.5),
-//                        Math.atan2(distanceY + 0.5, distanceX - 0.5),
-//                        Math.atan2(distanceY + 0.5, distanceX + 0.5)
-//                };
-//
-//                angle_min = Math.min(Math.min(angles[0], angles[1]), Math.min(angles[2], angles[3]));
-//                angle_max = Math.max(Math.max(angles[0], angles[1]), Math.max(angles[2], angles[3]));
-//
-//                if (Math.max(distanceX, distanceY) >= range) {
-//                    visibleObjects.remove(gameObject);
-//                } else {
-//                    ArrayList<double[]> obstacles = new ArrayList<>();
-//                    for (GameObject gameObject1 : visibleObjects) {
-//                        int distanceY1 = gameObject1.y - object.y;
-//                        int distanceX1 = gameObject1.x - object.x;
-//
-//                        if (Math.max(distanceX, distanceY) < range && Math.abs(distanceX) > Math.abs(distanceX1) &&
-//                                Math.abs(distanceY) > Math.abs(distanceY1) && (distanceX < 0) == (distanceX1 < 0) &&
-//                                (distanceY < 0) == (distanceY1 < 0)) {
-//
-//                            double angle_min1;
-//                            double angle_max1;
-//
-//                            double[] angles1 = new double[]{
-//                                    Math.atan2(distanceY1 - 0.5, distanceX1 - 0.5),
-//                                    Math.atan2(distanceY1 - 0.5, distanceX1 + 0.5),
-//                                    Math.atan2(distanceY1 + 0.5, distanceX1 - 0.5),
-//                                    Math.atan2(distanceY1 + 0.5, distanceX1 + 0.5)
-//                            };
-//
-//                            angle_min1 = Math.min(Math.min(angles1[0], angles1[1]), Math.min(angles1[2], angles1[3]));
-//                            angle_max1 = Math.max(Math.max(angles1[0], angles1[1]), Math.max(angles1[2], angles1[3]));
-//
-//                            for (Iterator<double[]> iterator = obstacles.iterator(); iterator.hasNext();) {
-//                                double[] next = iterator.next();
-//
-//                                if (Math.max(angle_min1, next[0]) <= Math.min(angle_max1, next[1])) {
-//                                    iterator.remove();
-//                                    angle_min1 = Math.min(angle_min1, next[0]);
-//                                    angle_max1 = Math.max(angle_max1, next[1]);
-//                                }
-//
-//                            }
-//                            if (Math.max(angle_min1, angle_min1) <= Math.min(angle_max1, angle_max1)) {
-//                                obstacles.add(new double[]{angle_min1, angle_max1});
-//                            }
-//                        }
-//                    }
-//
-//                    for (double[] obstacle: obstacles){
-//                        if(obstacle[0] <= angle_min && obstacle[1] >= angle_max){
-//                            visibleObjects.remove(gameObject);
-//                        }
-//                    }
-//
-//
-//                }
-//            }
-//        }
 
         char[][] output = new char[range * 2][range * 2];
         for (char[] line : output) {
             Arrays.fill(line, ' ');
         }
 
-        for (GameObject gameObject : visibleObjects) {
-            if (gameObject.name.equals("wall")) {
-                output[gameObject.y - object.y + range][gameObject.x - object.x + range] = '#';
-            } else if (gameObject.name.equals("ork")) {
-                output[gameObject.y - object.y + range][gameObject.x - object.x + range] = 'o';
+        for (GameObject gameObject1 : visibleObjects) {
+            if (gameObject1.name.equals("wall")) {
+                output[gameObject1.y - gameObject.y + range][gameObject1.x - gameObject.x + range] = '#';
+            } else if (gameObject1.name.equals("ork")) {
+                output[gameObject1.y - gameObject.y + range][gameObject1.x - gameObject.x + range] = 'o';
+            } else if (gameObject1.name.equals("heeloo")){
+                output[gameObject1.y - gameObject.y + range][gameObject1.x - gameObject.x + range] = ':';
             }
         }
 
@@ -167,6 +101,58 @@ public class UserInterface {
 
         for (char[] line : output) {
             System.out.println(line);
+        }
+    }
+
+    private void lightRay(HashSet<GameObject> visibleObjects, int posX, int posY, int x, int y, int range){
+//        System.out.println(x + " : " + y);
+        int longest = (Math.abs(x) > Math.abs(y)) ? x : y;
+        int shortest  = (Math.abs(x) < Math.abs(y)) ? x : y;
+
+        int[] lines = new int[Math.abs(shortest) + 1];
+        for(int i = 0; i < lines.length; i++){
+            lines[i] = 0;
+        }
+
+        int length = 0;
+
+        for(int i = 1; length != Math.abs(longest); i++){
+            lines[i % lines.length] = i / lines.length;
+
+            length = 0;
+            for(int line : lines){
+                length += line;
+            }
+        }
+
+        boolean finished = false;
+        int straight = 0, diagonal = 0, i = 0;
+        while(straight < range && diagonal < range && !finished){
+            for(GameObject gameObject: game.currentLevel.gameObjects){
+                int distanceX, distanceY;
+
+                if(longest == x ){
+                    distanceX = longest != 0 ? straight * longest / Math.abs(longest) : 0;
+                    distanceY = shortest != 0 ? diagonal * shortest / Math.abs(shortest) : 0;
+                }else{
+                    distanceX = shortest != 0 ? diagonal * shortest / Math.abs(shortest) : 0;
+                    distanceY = longest != 0 ? straight * longest / Math.abs(longest) : 0;
+                }
+
+                if(gameObject.x == posX + distanceX && gameObject.y == posY + distanceY){
+                    visibleObjects.add(gameObject);
+                    if(gameObject.intact){
+                        finished = true;
+                    }
+                }
+            }
+
+            straight++;
+            i++;
+            if(i >= lines[straight % lines.length]){
+                i = 0;
+                diagonal++;
+            }
         }
     }
 }
