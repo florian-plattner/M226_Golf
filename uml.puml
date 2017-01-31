@@ -1,0 +1,143 @@
+@startuml
+
+class Main {
+    + {static} void main(String[] args)
+    + {static} String getArticle(String word, boolean capital)
+}
+
+class UserInterface {
+    - Game game
+    - Scanner scanner
+
+    + UserInterface(Game game)
+    + void run()
+    - void printView(GameObject gameObject, int range)
+    - void lightRay(HashSet<GameObject> visibleObjects, int posX, int posY, int x, int y, int range)
+}
+
+class Level {
+    + ArrayList<GameObject> gameObjects
+    + Level()
+}
+
+class Game {
+    + ArrayList<Level> levels
+    + Level currentLevel
+    + String description
+    + Player player
+    + UserInterface userInterface
+
+    + Game(Player player, ArrayList<Level> levels, String description)
+    + void game()
+}
+
+class FileLoader {
+    + {static} String PLAYER
+    + {static} String MELEE_WEAPONS
+    + {static} String RANGED_WEAPONS
+    + {static} String DESCRIPTION
+    + {static} String LEVELS
+
+    + {static} ArrayList<String[]> loadCsv(String filename)
+    + {static} Weapon loadWeapon(String name)
+    + {static} Player loadPlayer()
+    + {static} String loadText(String filename)
+    + {static} String loadDescription()
+    + {static} ArrayList<Level> loadLevels()
+}
+
+class Attack {
+    + DamageType type;
+    + int amount;
+
+    + Attack(DamageType type, int amount)
+}
+
+enum DamageType {
+    SLASHING
+    PIERCING
+    FIRE
+    COLD
+}
+
+package game_objects {
+    Level o-- GameObject
+
+    GameObject <|-- Mob
+    Mob <|-- Player
+    Mob <|-- NonPlayerCharacter
+
+
+    class GameObject {
+        + String name
+        + int x
+        + int y
+        + int hitpoints
+        + boolean intact
+
+        + GameObject(String name, int hitpoints, int x, int y)
+        + void hit(Attack attack)
+    }
+
+    class Mob {
+        + ArrayList<Item> inventory
+
+        + Mob(String name, int hitpoints, int x, int y)
+        + void move(Level level, int x, int y)
+        + void hit(Attack attack)
+    }
+
+    class NonPlayerCharacter {
+        + NonPlayerCharacter(String name, int hitpoints, int x, int y)
+        + void update()
+    }
+
+    class Player {
+        + Player(String name, int hitpoints, int x, int y)
+        + boolean useWeapon(Level level, String weapon, int directionX, int directionY)
+    }
+}
+
+package items {
+    Weapon o-- DamageType
+    Item <|-- Armor
+    Item <|-- Weapon
+    Weapon <|-- MeleeWeapon
+    Weapon <|-- RangedWeapon
+    Mob o-- Item
+
+    class Item {
+        + String name
+        + int weight
+
+        + Item(String name, int weight)
+    }
+
+    class Weapon {
+        + DamageType damageType
+        + int damage
+
+        + Weapon(String name, int weight, DamageType damageType, int damage)
+        + void attack(Level level, int directionX, int directionY, int x, int y)
+    }
+
+    class MeleeWeapon {
+        + MeleeWeapon(String name, int weight, DamageType damageType, int damage)
+        + void attack(Level level, int directionX, int directionY, int x, int y)
+    }
+
+    class RangedWeapon {
+        + int range
+
+        + RangedWeapon(String name, int weight, DamageType damageType, int damage, int range)
+        + void attack(Level level, int directionX, int directionY, int x, int y)
+    }
+
+    class Armor {
+        + HashMap<DamageType, Integer> damageReductions
+
+        + Armor(String name, int weight)
+    }
+}
+
+@enduml
