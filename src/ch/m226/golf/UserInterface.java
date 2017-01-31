@@ -92,8 +92,6 @@ public class UserInterface {
                 output[gameObject1.y - gameObject.y + range][gameObject1.x - gameObject.x + range] = '#';
             } else if (gameObject1.name.equals("ork")) {
                 output[gameObject1.y - gameObject.y + range][gameObject1.x - gameObject.x + range] = 'o';
-            } else if (gameObject1.name.equals("heeloo")){
-                output[gameObject1.y - gameObject.y + range][gameObject1.x - gameObject.x + range] = ':';
             }
         }
 
@@ -105,7 +103,6 @@ public class UserInterface {
     }
 
     private void lightRay(HashSet<GameObject> visibleObjects, int posX, int posY, int x, int y, int range){
-//        System.out.println(x + " : " + y);
         int longest = (Math.abs(x) > Math.abs(y)) ? x : y;
         int shortest  = (Math.abs(x) < Math.abs(y)) ? x : y;
 
