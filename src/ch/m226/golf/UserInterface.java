@@ -32,31 +32,14 @@ public class UserInterface {
         while (game.currentLevel != null) {
             String[] input = scanner.nextLine().split(" ");
 
-            boolean commandExecuted = false;
-
             if (input[0].equals("exit")) {
-                commandExecuted = true;
-                break;
-            }
-
-            for(String command : commands.keySet()){
-                if(command.equals(input[0])){
-                    if(commands.get(command).use(game, Arrays.copyOfRange(input, 1, input.length))){
-                        commandExecuted = true;
-                        break;
-                    }
-                }
-            }
-
-            if(!commandExecuted){
-                if(game.player.skills.containsKey(input[0]) && input.length >= 2 && directions.containsKey(input[1])){
-                    int[] direction = directions.get(input[1]);
-                    game.player.skills.get(input[0]).use(game.currentLevel, game.player, direction[0], direction[1]);
-                    commandExecuted = true;
-                }
-            }
-
-            if(!commandExecuted){
+               break;
+            }else if (commands.containsKey(input[0])) {
+                commands.get(input[0]).use(game, Arrays.copyOfRange(input, 1, input.length));
+            }else if(game.player.skills.containsKey(input[0]) && input.length >= 2 && directions.containsKey(input[1])){
+                int[] direction = directions.get(input[1]);
+                game.player.skills.get(input[0]).use(game.currentLevel, game.player, direction[0], direction[1]);
+            }else{
                 System.out.println("Unknown command");
             }
         }

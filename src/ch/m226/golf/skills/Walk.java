@@ -9,8 +9,8 @@ public class Walk implements Skill{
 
     @Override
     public void use(Level level, Mob mob, int directionX, int directionY){
-        directionX = directionX / Math.abs(directionX);
-        directionY = directionY / Math.abs(directionY);
+        directionX = directionX == 0 ? 0 : directionX / Math.abs(directionX);
+        directionY = directionY == 0 ? 0 : directionY / Math.abs(directionY);
 
         for(GameObject gameObject: level.gameObjects){
             if (gameObject.x == mob.x + directionX && gameObject.y == mob.y + directionY && gameObject.intact){

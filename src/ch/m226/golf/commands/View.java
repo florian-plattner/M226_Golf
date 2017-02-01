@@ -8,14 +8,14 @@ import java.util.Arrays;
 import java.util.HashSet;
 
 public class View implements Command{
-    private static int range = 8;
+    private static int range = 6;
 
     @Override
     public boolean use(Game game, String[] args){
         Player player = game.player;
         HashSet<GameObject> visibleObjects = new HashSet<>();
 
-        for(int i = 0; i <= range / 2; i++){
+        for(int i = 0; i <= range; i++){
             int x = -1, y = -1;
 
             do{
@@ -72,91 +72,54 @@ public class View implements Command{
         boolean finished = false;
         int straight = 0, diagonal = 0, i = 0;
         while(straight < range && diagonal < range && !finished){
-            for(GameObject gameObject: game.currentLevel.gameObjects){
-                int distanceX, distanceY;
+            int distanceX, distanceY;
 
-                if(longest == x ){
-                    distanceX = longest != 0 ? straight * longest / Math.abs(longest) : 0;
-                    distanceY = shortest != 0 ? diagonal * shortest / Math.abs(shortest) : 0;
-                }else{
-                    distanceX = shortest != 0 ? diagonal * shortest / Math.abs(shortest) : 0;
-                    distanceY = longest != 0 ? straight * longest / Math.abs(longest) : 0;
-                }
-
-                if(gameObject.x == posX + distanceX && gameObject.y == posY + distanceY){
-                    visibleObjects.add(gameObject);
-                    if(gameObject.intact){
-                        finished = true;
-                    }
-                }
-            }
-
-            straight++;
-            i++;
             if(i >= lines[straight % lines.length]){
-                i = 0;
                 diagonal++;
             }
+
+            int[] distances = getDistances(x, y, longest, shortest, straight, diagonal);
+            distanceX = distances[0];
+            distanceY = distances[1];
+
+            GameObject gameObject = checkField(game, posX + distanceX, posY + distanceY);
+
+            if(gameObject != null){
+                visibleObjects.add(gameObject);
+                if(gameObject.intact){
+                    finished = true;
+                }
+            }
+
+            i++;
+            straight++;
         }
     }
 
-    private void lightRay1(Game game, HashSet<GameObject> visibleObjects, int posX, int posY, int x, int y, int range){
-        int longest = (Math.abs(x) > Math.abs(y)) ? x : y;
-        int shortest  = (Math.abs(x) < Math.abs(y)) ? x : y;
+    private int[] getDistances(int x, int y, int longest, int shortest, int straight, int diagonal){
+        int[] distances = new int[2];
 
-        int[] lines = new int[Math.abs(shortest) + 1];
-        for(int i = 0; i < lines.length; i++){
-            lines[i] = 0;
+        if(longest == x){
+            distances[0] = longest != 0 ? straight * longest / Math.abs(longest) : 0;
+            distances[1] = shortest != 0 ? diagonal * shortest / Math.abs(shortest) : 0;
+        }else{
+            distances[0] = shortest != 0 ? diagonal * shortest / Math.abs(shortest) : 0;
+            distances[1] = longest != 0 ? straight * longest / Math.abs(longest) : 0;
         }
 
-        int length = 0;
+        return  distances;
+    }
 
-        for(int i = 1; length != Math.abs(longest); i++){
-            lines[i % lines.length] = i / lines.length;
+    private GameObject checkField(Game game, int x, int y){
+        GameObject gameObject = null;
 
-            length = 0;
-            for(int line : lines){
-                length += line;
+        for(GameObject gameObject1: game.currentLevel.gameObjects){
+            if(gameObject1.x == x && gameObject1.y == y){
+                gameObject = gameObject1;
+                break;
             }
         }
 
-        boolean finished = false;
-        int straight = 0, diagonal = 0, i = 0;
-        while(straight < range && diagonal < range && !finished){
-            for(GameObject gameObject: game.currentLevel.gameObjects){
-                int distanceX, distanceY;
-
-                if(longest == x ){
-                    distanceX = longest != 0 ? straight * longest / Math.abs(longest) : 0;
-                    distanceY = shortest != 0 ? diagonal * shortest / Math.abs(shortest) : 0;
-                }else{
-                    distanceX = shortest != 0 ? diagonal * shortest / Math.abs(shortest) : 0;
-                    distanceY = longest != 0 ? straight * longest / Math.abs(longest) : 0;
-                }
-
-                if(gameObject.x == posX + distanceX && gameObject.y == posY + distanceY){
-                    visibleObjects.add(gameObject);
-                    if(gameObject.intact){
-                        finished = true;
-                    }
-                }
-
-                if(y < 0)diagonal--;
-                else diagonal++;
-
-                if(i >= lines[straight % lines.length]){
-                    i = 0;
-                    if(x < 0)straight -= 1;
-                    else straight += 1;
-                }
-            }
-
-            straight++;
-            i++;
-            if(i >= lines[straight % lines.length]){
-                i = 0;
-                diagonal++;
-            }
-        }
+        return gameObject;
     }
 }
