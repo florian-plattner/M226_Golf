@@ -61,7 +61,7 @@ enum DamageType {
 }
 
 package game_objects {
-    Level o-- GameObject
+    Level *-- GameObject
 
     GameObject <|-- Mob
     Mob <|-- Player
@@ -79,8 +79,10 @@ package game_objects {
         + void hit(Attack attack)
     }
 
-    class Mob {
+    abstract class Mob {
         + ArrayList<Item> inventory
+        + ArrayList<Skill> skills
+        + Weapon equippedWeapon
 
         + Mob(String name, int hitpoints, int x, int y)
         + void move(Level level, int x, int y)
@@ -99,21 +101,22 @@ package game_objects {
 }
 
 package items {
-    Weapon o-- DamageType
+    Weapon *-- DamageType
     Item <|-- Armor
     Item <|-- Weapon
     Weapon <|-- MeleeWeapon
     Weapon <|-- RangedWeapon
-    Mob o-- Item
+    Mob *-- Item
+    Mob *-- Weapon
 
-    class Item {
+    abstract class Item {
         + String name
         + int weight
 
         + Item(String name, int weight)
     }
 
-    class Weapon {
+    abstract class Weapon {
         + DamageType damageType
         + int damage
 
@@ -137,6 +140,42 @@ package items {
         + HashMap<DamageType, Integer> damageReductions
 
         + Armor(String name, int weight)
+    }
+}
+
+package skills {
+    Skill <|.. Walk
+    Skill <|.. WeaponAttack
+    Mob *-- Skill
+
+    interface Skill {
+        void use(Mob mob)
+    }
+
+    class Walk {
+        + void use(Mob mob)
+    }
+
+    class WeaponAttack {
+        + void use(Mob mob)
+    }
+}
+
+package commands {
+    Command <|.. Equip
+    Command <|.. View
+
+
+    interface Command {
+        boolean use(Game game, String[] args)
+    }
+
+    class Equip {
+        + boolean use(Game game, String[] args)
+    }
+
+    class View {
+        + boolean use(Game game, String[] args)
     }
 }
 

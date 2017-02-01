@@ -1,13 +1,7 @@
 package ch.m226.golf;
 
-import ch.m226.golf.game_objects.NonPlayerCharacter;
 import ch.m226.golf.game_objects.Player;
-import ch.m226.golf.items.MeleeWeapon;
-import ch.m226.golf.items.RangedWeapon;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
