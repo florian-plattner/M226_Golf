@@ -6,31 +6,34 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class Main{
+/**
+ * The starting class containing the main method.
+ */
+public class Main {
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         String description = FileLoader.loadDescription();
         ArrayList<Level> levels = FileLoader.loadLevels();
         Player player = FileLoader.loadPlayer();
 
-        if(description != null && levels != null && player != null){
+        if (description != null && levels != null && player != null) {
             Game game = new Game(player, levels, description);
             game.game();
-        }else{
+        } else {
             System.out.println("Failed to load!");
         }
     }
 
-    public static String getArticle(String word, boolean capital){
+    public static String getArticle(String word, boolean capital) {
         String a;
 
-        if(capital) a = "A";
+        if (capital) a = "A";
         else a = "a";
 
         List consonants = Arrays.asList('a', 'e', 'i', 'o', 'u');
-        if(consonants.contains(word.toCharArray()[0])){
+        if (consonants.contains(word.toCharArray()[0])) {
             return a + "n";
-        }else{
+        } else {
             return a;
         }
     }

@@ -5,6 +5,9 @@ import ch.m226.golf.Main;
 import ch.m226.golf.game_objects.GameObject;
 import ch.m226.golf.game_objects.Mob;
 
+/**
+ * This skill gives a mob the ability to walk.
+ */
 public class Walk implements Skill{
 
     @Override

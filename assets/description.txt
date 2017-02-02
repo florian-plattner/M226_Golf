@@ -1,5 +1,6 @@
 commands:
   walk [direction (north, south, ..)]: to move
-  attack [direction] with [weapon name]: to use your weapons
-  look around: to see surroundings
+  equip [item name]: to equip a weapon or armor
+  attack [direction]: to attack in the given direction with the equipped weapon
+  view: to look around
   exit: to quit game

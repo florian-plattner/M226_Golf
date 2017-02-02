@@ -3,7 +3,10 @@ package ch.m226.golf.items;
 import ch.m226.golf.DamageType;
 import ch.m226.golf.Level;
 
-public class Weapon extends Item{
+/**
+ * An item that can be used for attacking.
+ */
+public abstract class Weapon extends Item{
     public DamageType damageType;
     public int damage;
 

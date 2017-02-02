@@ -1,8 +1,8 @@
 package ch.m226.golf;
 
-import ch.m226.golf.game_objects.GameObject;
 import ch.m226.golf.game_objects.NonPlayerCharacter;
 import ch.m226.golf.game_objects.Player;
+import ch.m226.golf.game_objects.Wall;
 import ch.m226.golf.items.MeleeWeapon;
 import ch.m226.golf.items.RangedWeapon;
 import ch.m226.golf.items.Weapon;
@@ -14,6 +14,10 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
+
+/**
+ * Contains a bunch of static methods to load data from files.
+ */
 public class FileLoader {
     public static final String PLAYER = "assets/player.csv";
     public static final String MELEE_WEAPONS = "assets/weapons/melee.csv";
@@ -83,12 +87,11 @@ public class FileLoader {
         try {
             String[] line = data.get(0);
 
-            String name = line[0];
-            int hitpoints = Integer.parseInt(line[1]);
-            int x = Integer.parseInt(line[2]);
-            int y = Integer.parseInt(line[3]);
+            int hitpoints = Integer.parseInt(line[0]);
+            int x = Integer.parseInt(line[1]);
+            int y = Integer.parseInt(line[2]);
 
-            player = new Player(name, hitpoints, x, y);
+            player = new Player(hitpoints, x, y);
 
             for(String weaponName: data.get(1)){
                 Weapon weapon = loadWeapon(weaponName);
@@ -135,7 +138,7 @@ public class FileLoader {
                     }else{
                         switch(levelData[i]){
                             case 'w':
-                                level.gameObjects.add(new GameObject("wall", 0, x, y));
+                                level.gameObjects.add(new Wall(x, y));
                                 break;
                             case 'o':
                                 level.gameObjects.add(new NonPlayerCharacter("ork", 1, x, y));

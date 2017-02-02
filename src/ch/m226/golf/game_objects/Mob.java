@@ -12,7 +12,7 @@ import ch.m226.golf.skills.WeaponAttack;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Mob extends GameObject{
+public abstract class Mob extends GameObject{
     public ArrayList<Item> inventory;
     public HashMap<String, Skill> skills;
     public Weapon equippedWeapon;

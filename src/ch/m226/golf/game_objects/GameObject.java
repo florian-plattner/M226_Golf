@@ -1,8 +1,12 @@
 package ch.m226.golf.game_objects;
 
 import ch.m226.golf.Attack;
+import ch.m226.golf.Level;
 
-public class GameObject{
+/**
+ * A game object represents an object in the game world.
+ */
+public abstract class GameObject{
     public String name;
     public int x, y;
     public int hitpoints;
@@ -16,6 +20,18 @@ public class GameObject{
         intact = true;
     }
 
+    /**
+     * This method is called in every game turn.
+     * @param level
+     */
+    public void update(Level level){
+
+    }
+
+    /**
+     * This method is called when an object is being attacked.
+     * @param attack
+     */
     public void hit(Attack attack){
         if(hitpoints > 0){
             hitpoints -= attack.amount;

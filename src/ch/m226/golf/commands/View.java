@@ -7,6 +7,9 @@ import ch.m226.golf.game_objects.Player;
 import java.util.Arrays;
 import java.util.HashSet;
 
+/**
+ * The command used to print everything that is visible to the player.
+ */
 public class View implements Command{
     private static int range = 6;
 
@@ -49,6 +52,16 @@ public class View implements Command{
         return true;
     }
 
+    /**
+     * This method is used to find visible objects in a certain direction
+     * @param game the game
+     * @param visibleObjects a set of game objects to put in the objects that are visible
+     * @param posX the x axis of the origin
+     * @param posY the y axis of the origin
+     * @param x the x axis of the direction
+     * @param y the y axis of the direction
+     * @param range the range of vision
+     */
     private void lightRay(Game game, HashSet<GameObject> visibleObjects, int posX, int posY, int x, int y, int range){
         int longest = (Math.abs(x) > Math.abs(y)) ? x : y;
         int shortest  = (Math.abs(x) < Math.abs(y)) ? x : y;
@@ -78,9 +91,13 @@ public class View implements Command{
                 diagonal++;
             }
 
-            int[] distances = getDistances(x, y, longest, shortest, straight, diagonal);
-            distanceX = distances[0];
-            distanceY = distances[1];
+            if(longest == x){
+                distanceX = longest != 0 ? straight * longest / Math.abs(longest) : 0;
+                distanceY = shortest != 0 ? diagonal * shortest / Math.abs(shortest) : 0;
+            }else{
+                distanceX = shortest != 0 ? diagonal * shortest / Math.abs(shortest) : 0;
+                distanceY = longest != 0 ? straight * longest / Math.abs(longest) : 0;
+            }
 
             GameObject gameObject = checkField(game, posX + distanceX, posY + distanceY);
 
@@ -96,20 +113,13 @@ public class View implements Command{
         }
     }
 
-    private int[] getDistances(int x, int y, int longest, int shortest, int straight, int diagonal){
-        int[] distances = new int[2];
-
-        if(longest == x){
-            distances[0] = longest != 0 ? straight * longest / Math.abs(longest) : 0;
-            distances[1] = shortest != 0 ? diagonal * shortest / Math.abs(shortest) : 0;
-        }else{
-            distances[0] = shortest != 0 ? diagonal * shortest / Math.abs(shortest) : 0;
-            distances[1] = longest != 0 ? straight * longest / Math.abs(longest) : 0;
-        }
-
-        return  distances;
-    }
-
+    /**
+     * This method is used to check whether or not an object is on a certain location.
+     * @param game
+     * @param x the x axis of the location
+     * @param y the y axis of the location
+     * @return null if there is no object at this location or the object that is there
+     */
     private GameObject checkField(Game game, int x, int y){
         GameObject gameObject = null;
 

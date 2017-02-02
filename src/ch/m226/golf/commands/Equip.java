@@ -6,6 +6,9 @@ import ch.m226.golf.items.Weapon;
 
 import java.util.ArrayList;
 
+/**
+ * The command used to equip a weapon or armor
+ */
 public class Equip implements Command{
     @Override
     public boolean use(Game game, String[] args){

@@ -1,6 +1,9 @@
 package ch.m226.golf.items;
 
-public class Item{
+/**
+ * The abstract base class for all items, that can be in the inventory of a mob.
+ */
+public abstract class Item{
     public String name;
     public int weight;
 

@@ -6,6 +6,9 @@ import ch.m226.golf.commands.View;
 
 import java.util.*;
 
+/**
+ * The user interface is used to interface between the user and the game.
+ */
 public class UserInterface {
     private Game game;
     private Scanner scanner;
@@ -26,14 +29,23 @@ public class UserInterface {
         directions.put("south", new int[]{0, 1});
     }
 
-    public void run() {
+    /**
+     * Prints the description.
+     */
+    public void printDescription(){
         System.out.println(game.description);
+    }
 
-        while (game.currentLevel != null) {
+    /**
+     * Scans for input and runs the commands.
+     * @return whether the game should continue running
+     */
+    public boolean run() {
+        if (game.currentLevel != null) {
             String[] input = scanner.nextLine().split(" ");
 
             if (input[0].equals("exit")) {
-               break;
+               return false;
             }else if (commands.containsKey(input[0])) {
                 commands.get(input[0]).use(game, Arrays.copyOfRange(input, 1, input.length));
             }else if(game.player.skills.containsKey(input[0]) && input.length >= 2 && directions.containsKey(input[1])){
@@ -42,6 +54,10 @@ public class UserInterface {
             }else{
                 System.out.println("Unknown command");
             }
+
+            return true;
+        }else{
+            return false;
         }
     }
 

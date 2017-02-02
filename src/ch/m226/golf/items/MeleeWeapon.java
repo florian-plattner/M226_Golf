@@ -6,6 +6,9 @@ import ch.m226.golf.Level;
 import ch.m226.golf.Main;
 import ch.m226.golf.game_objects.GameObject;
 
+/**
+ * A weapon for melee combat.
+ */
 public class MeleeWeapon extends Weapon{
 
     public MeleeWeapon(String name, int weight, DamageType damageType, int damage){
