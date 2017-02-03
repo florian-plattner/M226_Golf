@@ -10,16 +10,29 @@ public class NonPlayerCharacter extends Mob{
 
     @Override
     public void update(Level level){
-        int distanceX = level.player.x - x;
-        int distanceY = level.player.y - y;
-        if(Math.abs(distanceX) < 4 && Math.abs(distanceY) < 4 && distanceX != 0 && distanceY != 0){
-            int directionX = distanceX / Math.abs(distanceX);
-            int directionY = distanceY / Math.abs(distanceY);
+        int directionX = 0;
+        int directionY = 0;
 
-            if(Math.abs(distanceX) > 1) x += directionX;
-            if(Math.abs(distanceY) > 1) y += directionY;
-
-
+        if(level.player.x - x == 0){
+            if(level.player.y > y){
+                directionY = 1;
+            }else if(level.player.y < y){
+                directionY = -1;
+            }
+        }else if(level.player.y - y == 0){
+            if(level.player.x > x){
+                directionX = 1;
+            }else if(level.player.x < x){
+                directionX = -1;
+            }
         }
+
+        if(equippedWeapon != null && (directionX != 0 || directionY != 0)){
+            skills.get("walk").use(level, this, directionX, directionY);
+            skills.get("attack").use(level, this, directionX, directionY);
+        }
+
+//        System.out.println(x);
+//        System.out.println(y);
     }
 }

@@ -135,12 +135,6 @@ package items {
         + RangedWeapon(String name, int weight, DamageType damageType, int damage, int range)
         + void attack(Level level, int directionX, int directionY, int x, int y)
     }
-
-    class Armor {
-        + HashMap<DamageType, Integer> damageReductions
-
-        + Armor(String name, int weight)
-    }
 }
 
 package skills {
@@ -149,15 +143,15 @@ package skills {
     Mob *-- Skill
 
     interface Skill {
-        void use(Mob mob)
+        void use(Level level, Mob mob, int directionX, int directionY)
     }
 
     class Walk {
-        + void use(Mob mob)
+        + void use(Level level, Mob mob, int directionX, int directionY)
     }
 
     class WeaponAttack {
-        + void use(Mob mob)
+        + void use(Level level, Mob mob, int directionX, int directionY)
     }
 }
 
@@ -175,6 +169,10 @@ package commands {
     }
 
     class View {
+        + boolean use(Game game, String[] args)
+    }
+
+    class ShowInventory {
         + boolean use(Game game, String[] args)
     }
 }

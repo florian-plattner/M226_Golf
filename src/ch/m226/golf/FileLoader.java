@@ -141,7 +141,9 @@ public class FileLoader {
                                 level.gameObjects.add(new Wall(x, y));
                                 break;
                             case 'o':
-                                level.gameObjects.add(new NonPlayerCharacter("ork", 1, x, y));
+                                NonPlayerCharacter ork = new NonPlayerCharacter("ork", 1, x, y);
+                                ork.equippedWeapon = loadWeapon("sword");
+                                level.gameObjects.add(ork);
                                 break;
                             case 'n':
                                 level.levelEndX = x;

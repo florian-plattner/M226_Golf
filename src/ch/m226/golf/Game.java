@@ -36,13 +36,15 @@ public class Game{
     public void game(){
         userInterface.printDescription();
         while (running){
-            running = userInterface.run() && player.intact;
-            if(player.x == currentLevel.levelEndX && player.y == currentLevel.levelEndY){
-                nextLevel();
-            }
+            running = userInterface.run();
+            player.update(currentLevel);
             for (GameObject gameObject: currentLevel.gameObjects){
                 gameObject.update(currentLevel);
             }
+            if(player.x == currentLevel.levelEndX && player.y == currentLevel.levelEndY){
+                nextLevel();
+            }
+            running = player.intact;
         }
     }
 

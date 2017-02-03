@@ -5,6 +5,7 @@ import ch.m226.golf.DamageType;
 import ch.m226.golf.Level;
 import ch.m226.golf.Main;
 import ch.m226.golf.game_objects.GameObject;
+import ch.m226.golf.game_objects.Player;
 
 /**
  * A weapon for melee combat.
@@ -23,14 +24,19 @@ public class MeleeWeapon extends Weapon{
         else if(directionY < -1)directionY = -1;
 
         boolean hit = false;
+        if(level.player.x == x + directionX && level.player.y == y + directionY){
+            level.player.hit(new Attack(damageType, damage));
+            hit = true;
+        }
+
         for(GameObject gameObject: level.gameObjects){
             if(gameObject.x == x + directionX && gameObject.y == y + directionY){
                 if(gameObject.intact){
                     System.out.println("You hit " + Main.getArticle(gameObject.name, false) + " " +
-                                       gameObject.name + ".");
+                            gameObject.name + ".");
                 }else{
                     System.out.println("You hit the corps of " + Main.getArticle(gameObject.name, false) + " " +
-                                       gameObject.name + ".");
+                            gameObject.name + ".");
                 }
                 gameObject.hit(new Attack(damageType, damage));
                 hit = true;
