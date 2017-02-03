@@ -14,6 +14,7 @@ public class Game{
     public String description;
     public Player player;
     public UserInterface userInterface;
+    private boolean running;
 
     public Game(Player player, ArrayList<Level> levels, String description){
         this.player = player;
@@ -26,6 +27,7 @@ public class Game{
             currentLevel.player = player;
         }
         userInterface = new UserInterface(this);
+        running = true;
     }
 
     /**
@@ -33,10 +35,37 @@ public class Game{
      */
     public void game(){
         userInterface.printDescription();
-        while (userInterface.run() && player.intact){
+        while (running){
+            running = userInterface.run() && player.intact;
+            if(player.x == currentLevel.levelEndX && player.y == currentLevel.levelEndY){
+                nextLevel();
+            }
             for (GameObject gameObject: currentLevel.gameObjects){
                 gameObject.update(currentLevel);
             }
         }
+    }
+
+    /**
+     * Load the next level.
+     */
+    public void nextLevel(){
+        int index = 0;
+        if(levels.contains(currentLevel)){
+            index = levels.indexOf(currentLevel) + 1;
+        }
+
+        if(levels.size() > index){
+            currentLevel = levels.get(index);
+            if(currentLevel.player != player){
+                currentLevel.player = player;
+            }
+
+            System.out.println("You have reached level " + (index + 1) + ".");
+        }else{
+            System.out.println("You win!!!");
+            running = false;
+        }
+
     }
 }

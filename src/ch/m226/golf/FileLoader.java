@@ -143,6 +143,10 @@ public class FileLoader {
                             case 'o':
                                 level.gameObjects.add(new NonPlayerCharacter("ork", 1, x, y));
                                 break;
+                            case 'n':
+                                level.levelEndX = x;
+                                level.levelEndY = y;
+                                break;
                         }
                         x++;
                     }

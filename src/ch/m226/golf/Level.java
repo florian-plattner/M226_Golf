@@ -11,8 +11,11 @@ import java.util.ArrayList;
 public class Level{
     public Player player;
     public ArrayList<GameObject> gameObjects;
+    public int levelEndX, levelEndY;
 
     public Level(){
         gameObjects = new ArrayList<>();
+        levelEndX = 0;
+        levelEndY = 0;
     }
 }
