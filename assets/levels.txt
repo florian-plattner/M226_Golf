@@ -1,1 +1,2 @@
 assets/levels/level_00.txt
+assets/levels/level_01.txt
