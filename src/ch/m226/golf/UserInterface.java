@@ -19,7 +19,7 @@ public class UserInterface {
         commands = new HashMap<>();
         commands.put("view", new View());
         commands.put("equip", new Equip());
-        commands.put("inventory", new ShowInventory());
+        commands.put("inventory", new Inventory());
         commands.put("health", new Health());
 
         directions = new HashMap<>();

@@ -7,7 +7,7 @@ import ch.m226.golf.items.Weapon;
 import java.util.ArrayList;
 
 /**
- * The command used to equip a weapon or armor
+ * The command used to equip a weapon.
  */
 public class Equip implements Command{
     @Override

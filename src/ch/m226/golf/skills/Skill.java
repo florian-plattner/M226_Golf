@@ -9,7 +9,7 @@ import ch.m226.golf.game_objects.Mob;
 public interface Skill {
 
     /**
-     * Use the skill. A skill is always use in a direction.
+     * Use the skill. A skill is always used in a direction.
      * @param level the level for the skill to act in.
      * @param mob the mob that uses the skill
      * @param directionX the x axis of the direction
