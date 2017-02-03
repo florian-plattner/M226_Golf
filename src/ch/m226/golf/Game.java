@@ -22,8 +22,8 @@ public class Game{
         if(levels.size() > 0){
             currentLevel = levels.get(0);
         }
-        if(!currentLevel.gameObjects.contains(player)){
-            currentLevel.gameObjects.add(player);
+        if(currentLevel.player != player){
+            currentLevel.player = player;
         }
         userInterface = new UserInterface(this);
     }
