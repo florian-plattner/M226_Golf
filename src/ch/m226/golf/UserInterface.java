@@ -41,24 +41,29 @@ public class UserInterface {
      * @return whether the game should continue running
      */
     public boolean run() {
+        boolean keepRunning = true;
+
         if (game.currentLevel != null) {
-            String[] input = scanner.nextLine().split(" ");
+            while (true){
+                String[] input = scanner.nextLine().split(" ");
 
-            if (input[0].equals("exit")) {
-               return false;
-            }else if (commands.containsKey(input[0])) {
-                commands.get(input[0]).use(game, Arrays.copyOfRange(input, 1, input.length));
-            }else if(game.player.skills.containsKey(input[0]) && input.length >= 2 && directions.containsKey(input[1])){
-                int[] direction = directions.get(input[1]);
-                game.player.skills.get(input[0]).use(game.currentLevel, game.player, direction[0], direction[1]);
-            }else{
-                System.out.println("Unknown command");
+                if (input[0].equals("exit")) {
+                    keepRunning = false;
+                    break;
+                }else if (commands.containsKey(input[0])) {
+                    commands.get(input[0]).use(game, Arrays.copyOfRange(input, 1, input.length));
+                }else if(game.player.skills.containsKey(input[0]) && input.length >= 2 && directions.containsKey(input[1])){
+                    int[] direction = directions.get(input[1]);
+                    game.player.skills.get(input[0]).use(game.currentLevel, game.player, direction[0], direction[1]);
+                    break;
+                }else{
+                    System.out.println("Unknown command");
+                }
             }
-
-            return true;
         }else{
-            return false;
+            keepRunning = false;
         }
+        return keepRunning;
     }
 
 }

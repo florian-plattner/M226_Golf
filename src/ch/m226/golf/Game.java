@@ -44,7 +44,7 @@ public class Game{
             if(player.x == currentLevel.levelEndX && player.y == currentLevel.levelEndY){
                 nextLevel();
             }
-            running = player.intact;
+            if(running)running = player.intact;
         }
     }
 
