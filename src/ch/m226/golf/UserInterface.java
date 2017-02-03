@@ -2,6 +2,7 @@ package ch.m226.golf;
 
 import ch.m226.golf.commands.Command;
 import ch.m226.golf.commands.Equip;
+import ch.m226.golf.commands.ShowInventory;
 import ch.m226.golf.commands.View;
 
 import java.util.*;
@@ -21,6 +22,7 @@ public class UserInterface {
         commands = new HashMap<>();
         commands.put("view", new View());
         commands.put("equip", new Equip());
+        commands.put("show_inventory", new ShowInventory());
 
         directions = new HashMap<>();
         directions.put("north", new int[]{0, -1});
