@@ -38,7 +38,7 @@ public class UserInterface {
                     default:
                         System.out.println("unknown direction");
                 }
-            } else if (input[0].equals("attack") && input.length >= 2) {
+            } else if (input[0].equals("attack") && input.length >= 4) {
                 if (input[2].equals("with")) {
                     String weapon = input[3];
                     switch (input[1]) {
