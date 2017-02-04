@@ -3,5 +3,6 @@ commands:
   attack [direction]: to attack in the given direction with the equipped weapon
   equip [item name]: to equip a weapon or armor
   health: to print hitpoints
+  inventory: to view inventory
   view: to look around
   exit: to quit game
