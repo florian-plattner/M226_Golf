@@ -39,7 +39,7 @@ public class Game{
             running = userInterface.run();
             player.update(currentLevel);
             for (GameObject gameObject: currentLevel.gameObjects){
-                gameObject.update(currentLevel);
+                if(gameObject.intact)gameObject.update(currentLevel);
             }
             if(player.x == currentLevel.levelEndX && player.y == currentLevel.levelEndY){
                 nextLevel();
