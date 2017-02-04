@@ -11,7 +11,7 @@ import java.util.HashSet;
  * The command used to print everything that is visible to the player.
  */
 public class View implements Command{
-    private static int range = 6;
+    private static int range = 4;
 
     @Override
     public boolean use(Game game, String[] args){
@@ -43,7 +43,11 @@ public class View implements Command{
             }
         }
 
-        output[range][range] = 'X';
+        output[range][range] = 'x';
+
+        System.out.println("\n#: wall");
+        System.out.println("o: ork");
+        System.out.println("x: player");
 
         for (char[] line : output) {
             System.out.println(line);
