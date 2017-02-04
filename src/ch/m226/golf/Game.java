@@ -62,6 +62,8 @@ public class Game{
             if(currentLevel.player != player){
                 currentLevel.player = player;
             }
+            player.x = 1;
+            player.y = 1;
 
             System.out.println("You have reached level " + (index + 1) + ".");
         }else{
