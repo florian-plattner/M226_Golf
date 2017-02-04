@@ -1,6 +1,7 @@
 commands:
   walk [direction (north, south, ..)]: to move
-  equip [item name]: to equip a weapon or armor
   attack [direction]: to attack in the given direction with the equipped weapon
+  equip [item name]: to equip a weapon or armor
+  health: to print hitpoints
   view: to look around
   exit: to quit game
