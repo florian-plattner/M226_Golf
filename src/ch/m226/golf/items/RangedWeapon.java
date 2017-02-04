@@ -29,10 +29,10 @@ public class RangedWeapon extends Weapon {
         for (int i = 1; i < range && !hit; i++) {
             for (GameObject gameObject : level.gameObjects) {
                 if (gameObject.x == x + directionX * i && gameObject.y == y + directionY * i) {
-                    if (gameObject.intact) {
+                    if (gameObject.intact && output) {
                         System.out.println("You shoot " + Main.getArticle(gameObject.name, false) + " " +
                                 gameObject.name + ".");
-                    } else {
+                    } else if (output) {
                         System.out.println("You shoot the corps of " + Main.getArticle(gameObject.name, false) + " " +
                                 gameObject.name + ".");
                     }
@@ -42,7 +42,7 @@ public class RangedWeapon extends Weapon {
             }
         }
 
-        if (!hit) {
+        if (!hit && output) {
             System.out.println("You did not hit anything.");
         }
     }

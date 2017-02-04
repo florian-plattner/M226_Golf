@@ -10,7 +10,7 @@ public class Inventory implements Command {
     @Override
     public boolean use(Game game, String[] args) {
         System.out.println("Equipped: " +
-                (game.player.equippedWeapon != null ? game.player.equippedWeapon.name : "null"));
+                (game.player.equippedWeapon != null ? game.player.equippedWeapon.name : "none"));
 
         for(Item item : game.player.inventory){
             System.out.println(item.name);

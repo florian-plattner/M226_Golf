@@ -9,11 +9,13 @@ import ch.m226.golf.Level;
 public abstract class Weapon extends Item{
     public DamageType damageType;
     public int damage;
+    public boolean output;
 
     public Weapon(String name, int weight, DamageType damageType, int damage){
         super(name, weight);
         this.damageType = damageType;
         this.damage = damage;
+        output = false;
     }
 
     public void attack(Level level, int directionX, int directionY, int x, int y){

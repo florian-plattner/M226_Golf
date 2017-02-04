@@ -96,6 +96,7 @@ public class FileLoader {
             for(String weaponName: data.get(1)){
                 Weapon weapon = loadWeapon(weaponName);
                 if(weapon != null){
+                    weapon.output = true;
                     player.inventory.add(weapon);
                 }
             }
